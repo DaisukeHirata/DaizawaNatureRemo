@@ -2,20 +2,8 @@
 # coding utf-8
 import pprint
 import requests
-#from pymongo import MongoClient
+from pymongo import MongoClient
 import time
-
-def main():
-  # mongodb
-  client = MongoClient("mongodb://localhost:27017")
-  db = client.dhmongo
-  time_in_sec = 60
-  while True:
-    newest_events = read_remo()
-    pprint.pprint(newest_events)
-    # mongodb
-    db.natureRemo.insert(newest_events)
-    time.sleep(time_in_sec)
 
 def read_remo():
     # Bearer XXXXX
@@ -29,5 +17,13 @@ def read_remo():
             'temperature': int(float(newest_events['te']['val']) * 10)}
 
 if __name__== '__main__':
-    main()
-
+    # mongodb
+    client = MongoClient("mongodb://localhost:27017")
+    db = client.dhmongo
+    time_in_sec = 60
+    while True:
+      newest_events = read_remo()
+      pprint.pprint(newest_events)
+      # mongodb
+      db.natureRemo.insert(newest_events)
+      time.sleep(time_in_sec)
